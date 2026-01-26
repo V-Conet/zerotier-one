@@ -1,6 +1,6 @@
 # ZeroTier for Alpine Linux
 
-Version: ![Upstream](https://img.shields.io/github/v/release/zerotier/ZeroTierOne?label=upstream) ![Repo](https://img.shields.io/badge/repo-v1.16.0-cryn)
+Version: ![Upstream](https://img.shields.io/github/v/release/zerotier/ZeroTierOne?label=upstream) ![Repo](https://img.shields.io/badge/dynamic/yaml?label=repo&query=$.app.version&url=https://raw.githubusercontent.com/V-Conet/zerotier-one/main/VERSION.yml)
 
 ## Usage
 
