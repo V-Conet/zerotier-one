@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [x86_64]
+        arch: [ x86_64, aarch64 ]
     steps:
       - uses: actions/checkout@v4
 
@@ -29,21 +29,21 @@ jobs:
         run: |
           mkdir -p ~/.abuild
           # 写入私钥
-          echo "${{ secrets.ABUILD_KEY }}" > ~/.abuild/build-key.rsa
-          chmod 600 ~/.abuild/build-key.rsa
+          echo "${{ secrets.ABUILD_KEY }}" > ~/.abuild/admin@vconet.top-6977579c.rsa
+          chmod 600 ~/.abuild/admin@vconet.top-6977579c.rsa
           # 写入公钥
-          echo "${{ vars.PUBKEY }}" > ~/.abuild/build-key.rsa.pub
-          chmod 644 ~/.abuild/build-key.rsa.pub
+          echo "${{ vars.PUBKEY }}" > ~/.abuild/admin@vconet.top-6977579c.rsa.pub
+          chmod 644 ~/.abuild/admin@vconet.top-6977579c.rsa.pub
           # 配置 abuild
-          echo "PACKAGER_PRIVKEY=~/.abuild/build-key.rsa" >> ~/.abuild/abuild.conf
-          echo "PACKAGER_PUBKEY=~/.abuild/build-key.rsa.pub" >> ~/.abuild/abuild.conf
+          echo "PACKAGER_PRIVKEY=~/.abuild/admin@vconet.top-6977579c.rsa" >> ~/.abuild/abuild.conf
+          echo "PACKAGER_PUBKEY=~/.abuild/admin@vconet.top-6977579c.rsa.pub" >> ~/.abuild/abuild.conf
           echo "REPODEST=$PWD/packages" >> ~/.abuild/abuild.conf
         shell: alpine.sh {0}
       
       - name: Pre-build config
         run: |
           addgroup runner abuild
-          cp ~/.abuild/build-key.rsa.pub /etc/apk/keys/
+          cp ~/.abuild/admin@vconet.top-6977579c.rsa.pub /etc/apk/keys/
         shell: alpine.sh --root {0}
         
       - name: Build APK package
