@@ -48,6 +48,7 @@ jobs:
         
       - name: Build APK package
         run: |
+          abuild checksum
           abuild -r
         shell: alpine.sh {0}
 

@@ -1,11 +1,29 @@
 # ZeroTier for Alpine Linux
 
+Version: ![Upstream](https://img.shields.io/github/v/release/zerotier/ZeroTierOne?label=upstream) ![Repo](https://img.shields.io/badge/repo-v1.16.0-cryn)
+
+## Usage
+
+Go to [Mirror's Homepage](https://mirror.vconet.top) (https://mirror.vconet.top)
+
 ## Documentation
 
 - [ZeroTier Documentation](https://docs.zerotier.com)
 - [ZeroTier GitHub Repository](https://github.com/zerotier/ZeroTierOne)
 
-## 免责声明 / Disclaimer
+---
 
-- 本仓库为个人学习/参考用的非官方镜像或派生。该仓库不会提交或同步到 Alpine community 仓库，与 ZeroTier 官方无关。请在使用前自行确认并遵守原始项目及第三方组件的授权条款。
-- This repository is a personal learning/reference fork. It will not be submitted to or synced with the Alpine community repository. Verify and comply with the licenses of the original project and any third‑party components before use.
+## Disclaimer
+
+- This repository is a **personal, unofficial build and distribution** created for learning, testing, and reference purposes only. 
+
+
+-  It is **not affiliated with, endorsed by, or submitted to** the Alpine Linux community or ZeroTier, Inc., and it will not be synced with any official Alpine repositories. 
+
+
+- Packages are provided **“as is”**, without any warranty of any kind, including but not limited to correctness, security, stability, or fitness for a particular purpose. Use at your own risk.
+
+- ZeroTierOne is subject to its own license terms (including source-available and non-commercial restrictions). It is the responsibility of the user to review, understand, and comply with all applicable licenses and legal requirements before using these packages.
+
+
+- The contents of this repository may change or be removed at any time without notice. 
