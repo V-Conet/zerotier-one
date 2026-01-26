@@ -1,0 +1,62 @@
+name: Build and Deploy APK Packages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Alpine Linux
+        uses: jirutka/setup-alpine@v1
+        with:
+          arch: ${{ matrix.arch }}
+          packages: >
+            alpine-sdk
+            build-base
+
+      - name: Setup abuild
+        run: |
+          mkdir -p ~/.abuild
+          # 写入私钥
+          echo "${{ secrets.ABUILD_KEY }}" > ~/.abuild/build-key.rsa
+          chmod 600 ~/.abuild/build-key.rsa
+          # 写入公钥
+          echo "${{ vars.PUBKEY }}" > ~/.abuild/build-key.rsa.pub
+          chmod 644 ~/.abuild/build-key.rsa.pub
+          # 配置 abuild
+          echo "PACKAGER_PRIVKEY=~/.abuild/build-key.rsa" >> ~/.abuild/abuild.conf
+          echo "PACKAGER_PUBKEY=~/.abuild/build-key.rsa.pub" >> ~/.abuild/abuild.conf
+          echo "REPODEST=$PWD/packages" >> ~/.abuild/abuild.conf
+        shell: alpine.sh {0}
+      
+      - name: Pre-build config
+        run: |
+          addgroup runner abuild
+          cp ~/.abuild/build-key.rsa.pub /etc/apk/keys/
+        shell: alpine.sh --root {0}
+        
+      - name: Build APK package
+        run: |
+          abuild -r
+        shell: alpine.sh {0}
+
+      - name: Deploy to pages branch
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/zerotier-one/
+          publish_branch: pages
+          destination_dir: edge/
+          keep_files: true

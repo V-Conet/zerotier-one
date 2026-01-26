@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+depend() {
+    need net
+    after firewall
+}
+
+command="/usr/sbin/zerotier-one"
+command_background="yes"
+pidfile="/run/$RC_SVCNAME.pid"
