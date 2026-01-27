@@ -1,4 +1,4 @@
-name: Build and Deploy APK Packages
+name: Build and Deploy Repo
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [ x86_64, aarch64 ]
+        arch: [ x86_64, x86, aarch64, loongarch64 ]
     steps:
       - uses: actions/checkout@v4
 
@@ -29,35 +29,57 @@ jobs:
         run: |
           mkdir -p ~/.abuild
           # 写入私钥
-          echo "${{ secrets.ABUILD_KEY }}" > ~/.abuild/admin@vconet.top-6977579c.rsa
-          chmod 600 ~/.abuild/admin@vconet.top-6977579c.rsa
+          echo "${{ secrets.ABUILD_KEY }}" > ~/.abuild/admin@vconet.top-69785d11.rsa
+          chmod 600 ~/.abuild/admin@vconet.top-69785d11.rsa
           # 写入公钥
-          echo "${{ vars.PUBKEY }}" > ~/.abuild/admin@vconet.top-6977579c.rsa.pub
-          chmod 644 ~/.abuild/admin@vconet.top-6977579c.rsa.pub
+          echo "${{ vars.PUBKEY }}" > ~/.abuild/admin@vconet.top-69785d11.rsa.pub
+          chmod 644 ~/.abuild/admin@vconet.top-69785d11.rsa.pub
           # 配置 abuild
-          echo "PACKAGER_PRIVKEY=~/.abuild/admin@vconet.top-6977579c.rsa" >> ~/.abuild/abuild.conf
-          echo "PACKAGER_PUBKEY=~/.abuild/admin@vconet.top-6977579c.rsa.pub" >> ~/.abuild/abuild.conf
+          echo "PACKAGER_PRIVKEY=~/.abuild/admin@vconet.top-69785d11.rsa" >> ~/.abuild/abuild.conf
+          echo "PACKAGER_PUBKEY=~/.abuild/admin@vconet.top-69785d11.rsa.pub" >> ~/.abuild/abuild.conf
           echo "REPODEST=$PWD/packages" >> ~/.abuild/abuild.conf
         shell: alpine.sh {0}
       
       - name: Pre-build config
         run: |
           addgroup runner abuild
-          cp ~/.abuild/admin@vconet.top-6977579c.rsa.pub /etc/apk/keys/
+          cp ~/.abuild/admin@vconet.top-69785d11.rsa.pub /etc/apk/keys/
         shell: alpine.sh --root {0}
         
       - name: Build APK package
         run: |
           abuild checksum
           abuild -r
+          tree .
         shell: alpine.sh {0}
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.arch }}
+          path: ./packages/zerotier-one/ # packages/REPONAME
+
+
+  deploy:
+    name: Deploy repo
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v5
+        with:
+          path: packages/
+
       - name: Deploy to pages branch
-        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/zerotier-one/
+          publish_dir: ./packages/
           publish_branch: pages
-          destination_dir: edge/
+          destination_dir: edge/ # Alpine Version
           keep_files: true
