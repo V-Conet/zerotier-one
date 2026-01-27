@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.arch }}
-          path: ./packages/zerotier-one/ # packages/REPONAME
+          path: ./packages/zerotier-one/${{ matrix.arch }} # packages/REPONAME
 
 
   deploy:
@@ -73,12 +73,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          path: downloads/
-
-      - name: Move packages
-        run: |
-          mkdir -p packages
-          cp -r downloads/* packages/
+          path: ./packages/
 
       - name: Deploy to pages branch
         uses: peaceiris/actions-gh-pages@v4
