@@ -73,7 +73,12 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          path: packages/
+          path: downloads/
+
+      - name: Move packages
+        run: |
+          mkdir -p packages
+          cp -r downloads/* packages/
 
       - name: Deploy to pages branch
         uses: peaceiris/actions-gh-pages@v4
@@ -82,4 +87,4 @@ jobs:
           publish_dir: ./packages/
           publish_branch: pages
           destination_dir: edge/ # Alpine Version
-          keep_files: true
+          keep_files: false
