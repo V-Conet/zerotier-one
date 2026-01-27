@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ZeroTierOne for Alpine Linux</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        /* ---------- Color variables ---------- */
+
+        :root {
+            --bg: #ffffff;
+            --fg: #232222;
+            --muted: #555555;
+            --border: #e5e5e5;
+            --code-bg: #f6f8fa;
+            --btn-bg: #ffffff;
+            --btn-border: #cccccc;
+            --github-fill: #151513;
+            --github-color: #ffffff;
+        }
+
+        /* Auto dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #303030;
+                --fg: #e6edf3;
+                --muted: #9da7b1;
+                --border: #30363d;
+                --code-bg: #161b22;
+                --btn-bg: #161b22;
+                --btn-border: #30363d;
+                --github-fill: #e6edf3;
+                --github-color: #0d1117;
+            }
+        }
+
+        /* ---------- Base ---------- */
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Helvetica, Arial, sans-serif;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            line-height: 1.6;
+            background: var(--bg);
+            color: var(--fg);
+        }
+
+        h1,
+        h2 {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: .3em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 1em;
+            overflow-x: auto;
+            border-radius: 6px;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: .15em .3em;
+            border-radius: 4px;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9em;
+            color: var(--muted);
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        /* ---------- Copy button ---------- */
+
+        .code-block {
+            position: relative;
+            margin: 1em 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid var(--btn-border);
+            background: var(--btn-bg);
+            color: var(--fg);
+            border-radius: 4px;
+
+            opacity: 0.45;
+            transition: opacity 0.15s ease,
+                background-color 0.15s ease,
+                border-color 0.15s ease;
+        }
+
+        .code-block:hover .copy-btn,
+        .copy-btn:hover {
+            opacity: 1;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ---------- GitHub corner ---------- */
+
+        .github-corner {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .github-corner svg {
+            fill: var(--github-fill);
+            color: var(--github-color);
+        }
+
+        .github-corner:hover .octo-arm {
+            animation: octocat-wave 560ms ease-in-out;
+        }
+
+        @keyframes octocat-wave {
+
+            0%,
+            100% {
+                transform: rotate(0);
+            }
+
+            20%,
+            60% {
+                transform: rotate(-25deg);
+            }
+
+            40%,
+            80% {
+                transform: rotate(10deg);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .github-corner:hover .octo-arm {
+                animation: none;
+            }
+
+            .github-corner .octo-arm {
+                animation: octocat-wave 560ms ease-in-out;
+            }
+        }
+    </style>
+    <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+</head>
+
+<body>
+
+    <!-- GitHub Corner -->
+    <a href="https://github.com/V-Conet/zerotier-one" class="github-corner" aria-label="View source on GitHub"
+        target="_blank" rel="noopener">
+        <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+            <path d="M0,0 L250,0 L250,250 Z"></path>
+            <path class="octo-arm" d="M128.3,109.0
+               C113.8,99.7 119.0,89.6 119.0,89.6
+               C122.0,82.7 120.5,78.6 120.5,78.6
+               C119.2,72.0 123.4,76.3 123.4,76.3
+               C127.3,80.9 125.5,87.3 125.5,87.3
+               C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;">
+            </path>
+            <path class="octo-body" d="M115.0,115.0
+               C114.9,115.1 118.7,116.5 119.8,115.4
+               L133.7,101.6
+               C136.9,99.2 139.9,98.4 142.2,98.6
+               C133.8,88.0 127.5,74.4 143.8,58.0
+               C148.5,53.4 154.0,51.2 159.7,51.0
+               C160.3,49.4 163.2,43.6 171.4,40.1
+               C171.4,40.1 176.1,42.5 178.8,56.2
+               C183.1,58.6 187.2,61.8 190.9,65.4
+               C194.5,69.0 197.7,73.2 200.1,77.6
+               C213.8,80.2 216.3,84.9 216.3,84.9
+               C212.7,93.1 206.9,96.0 205.4,96.6
+               C205.1,102.4 203.0,107.8 198.3,112.5
+               C181.9,128.9 168.3,122.5 157.7,114.1
+               C160.9,116.9 162.1,120.9 160.0,124.9
+               L146.4,138.6
+               C145.2,139.7 146.6,143.6 146.5,143.5
+               Z" fill="currentColor">
+            </path>
+        </svg>
+    </a>
+
+    <h1>ZeroTierOne for Alpine Linux</h1>
+
+    <h2>Usage</h2>
+
+    <ol>
+        <li>
+            Add the key
+            <div class="code-block">
+                <button class="copy-btn">Copy</button>
+                <pre><code>wget https://mirror.vconet.top/admin@vconet.top-69785d11.rsa.pub -O /etc/apk/keys/admin@vconet.top-69785d11.rsa.pub</code></pre>
+            </div>
+        </li>
+
+        <li>
+            Add the mirror
+            <div class="code-block">
+                <button class="copy-btn">Copy</button>
+                <pre><code>echo "https://mirror.vconet.top/edge/" | tee -a /etc/apk/repositories</code></pre>
+            </div>
+        </li>
+
+        <li>
+            Enjoy it
+            <div class="code-block">
+                <button class="copy-btn">Copy</button>
+                <pre><code>apk update && apk add zerotier-one zerotier-one-openrc</code></pre>
+            </div>
+        </li>
+    </ol>
+
+    <p class="center">
+        Currently only supports <code>Alpine Edge</code> on
+        <code>x86_64</code> <code>x86</code> <code>aarch64</code> <code>loongarch64</code>
+    </p>
+    <p class="center">
+        Version: <img src="https://img.shields.io/github/v/release/zerotier/ZeroTierOne?label=upstream" /> <img
+            src="https://img.shields.io/badge/dynamic/yaml?label=repo&query=$.app.version&url=https://raw.githubusercontent.com/V-Conet/zerotier-one/main/VERSION.yml" />
+    </p>
+
+    
+    <p class="center">
+        <span id="busuanzi_site_pv">...</span> Views
+    </p>
+
+    <footer>
+        <h2>Disclaimer</h2>
+
+        <p>
+            This repository is a <strong>personal, unofficial build and distribution</strong>
+            created for learning, testing, and reference purposes only.
+        </p>
+
+        <p>
+            It is <strong>not affiliated with, endorsed by, or submitted to</strong>
+            the Alpine Linux community or ZeroTier, Inc., and it will not be synced
+            with any official Alpine repositories.
+        </p>
+
+        <p>
+            Packages are provided <strong>“as is”</strong>, without any warranty of any kind,
+            including but not limited to correctness, security, stability, or fitness
+            for a particular purpose. Use at your own risk.
+        </p>
+
+        <p>
+            ZeroTierOne is subject to its own license terms (including source-available
+            and non-commercial restrictions). It is the responsibility of the user to
+            review, understand, and comply with all applicable licenses and legal
+            requirements before using these packages.
+        </p>
+
+        <p>
+            The contents of this repository may change or be removed at any time
+            without notice.
+        </p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    const old = btn.innerText;
+                    btn.innerText = 'Copied!';
+                    setTimeout(() => btn.innerText = old, 1200);
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
