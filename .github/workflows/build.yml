@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         arch: [ x86_64, x86, aarch64, loongarch64 ]
-        alpine_version: [ edge, v3.23, v3.22, v3.21 ]
+        alpine_version: [ edge, v3.23, v3.22 ]
     steps:
       - uses: actions/checkout@v4
 
@@ -80,9 +80,9 @@ jobs:
       - name: Organize packages by version
         run: |
           tree ./artifacts/
-          mkdir -p ./packages/{edge,v3.23}/
+          mkdir -p ./packages/{edge,v3.23,v3.22}/
           
-          for version in edge v3.23; do
+          for version in edge v3.23 v3.22; do
             for arch in x86_64 x86; do
               if [ -d "./artifacts/${arch}-${version}" ]; then
                 cp -r ./artifacts/${arch}-${version}/* ./packages/${version} 2>/dev/null || true
