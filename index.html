@@ -213,10 +213,11 @@
         </li>
 
         <li>
-            Add the mirror
+            Add the mirror, depending on your Alpine version: please replace <code>edge</code> with
+            your version if needed (e.g. <code>v3.23</code>,
             <div class="code-block">
                 <button class="copy-btn">Copy</button>
-                <pre><code>echo "https://mirror.vconet.top/edge/" | tee -a /etc/apk/repositories</code></pre>
+                <pre><code>echo "https://mirror.vconet.top/pkgs/edge/" | tee -a /etc/apk/repositories</code></pre>
             </div>
         </li>
 
@@ -230,7 +231,7 @@
     </ol>
 
     <p class="center">
-        Currently only supports <code>Alpine Edge</code> on
+        Currently supports <code>Alpine Edge</code>, <code>v3.23</code>, <code>v3.22</code>, and <code>v3.21</code> on
         <code>x86_64</code> <code>x86</code> <code>aarch64</code> <code>loongarch64</code>
     </p>
     <p class="center">
