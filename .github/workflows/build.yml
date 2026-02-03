@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         arch: [ x86_64, x86, aarch64, loongarch64 ]
+        alpine_version: [ edge, v3.23, v3.22, v3.21 ]
     steps:
       - uses: actions/checkout@v4
 
@@ -21,6 +22,7 @@ jobs:
         uses: jirutka/setup-alpine@v1
         with:
           arch: ${{ matrix.arch }}
+          branch: ${{ matrix.alpine_version }}
           packages: >
             alpine-sdk
             build-base
@@ -56,8 +58,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.arch }}
-          path: ./packages/zerotier-one/${{ matrix.arch }} # packages/REPONAME
+          name: ${{ matrix.arch }}-${{ matrix.alpine_version }}
+          path: ./packages/zerotier-one/
 
 
   deploy:
@@ -73,7 +75,22 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          path: ./packages/
+          path: ./artifacts/
+
+      - name: Organize packages by version
+        run: |
+          tree ./artifacts/
+          mkdir -p ./packages/{edge,v3.23}/
+          
+          for version in edge v3.23; do
+            for arch in x86_64 x86; do
+              if [ -d "./artifacts/${arch}-${version}" ]; then
+                cp -r ./artifacts/${arch}-${version}/* ./packages/${version} 2>/dev/null || true
+              fi
+            done
+          done
+          
+          tree ./packages/
 
       - name: Deploy to pages branch
         uses: peaceiris/actions-gh-pages@v4
@@ -81,5 +98,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./packages/
           publish_branch: pages
-          destination_dir: edge/ # Alpine Version
+          destination_dir: pkgs/
           keep_files: false
