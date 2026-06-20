@@ -26,7 +26,7 @@ jobs:
           packages: >
             alpine-sdk
             build-base
-            
+
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
@@ -53,6 +53,7 @@ jobs:
         
       - name: Build APK package
         run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
           abuild checksum
           abuild -r
           tree .
