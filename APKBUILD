@@ -1,7 +1,7 @@
 # Contributor: V-Conet <admin@vconet.top>
 # Maintainer: V-Conet <admin@vconet.top>
 pkgname=zerotier-one
-pkgver=1.16.0
+pkgver=1.16.2
 pkgrel=0
 pkgdesc="A Smart Ethernet Switch for Earth "
 url="https://www.zerotier.com"
