@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         arch: [ x86_64, x86, aarch64, loongarch64 ]
-        alpine_version: [ edge, v3.23, v3.22 ]
+        alpine_version: [ edge, v3.24, v3.23 ]
     steps:
       - uses: actions/checkout@v4
 
@@ -27,8 +27,8 @@ jobs:
             alpine-sdk
             build-base
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+      # - name: Setup Rust
+      #   uses: dtolnay/rust-toolchain@stable
 
       - name: Setup abuild
         run: |
@@ -53,7 +53,6 @@ jobs:
         
       - name: Build APK package
         run: |
-          export PATH="$HOME/.cargo/bin:$PATH"
           abuild checksum
           abuild -r
           tree .
