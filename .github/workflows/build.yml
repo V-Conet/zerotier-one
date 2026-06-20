@@ -26,6 +26,9 @@ jobs:
           packages: >
             alpine-sdk
             build-base
+            
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Setup abuild
         run: |
