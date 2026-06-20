@@ -4,7 +4,7 @@ Version: ![Upstream](https://img.shields.io/github/v/release/zerotier/ZeroTierOn
 
 ## Usage
 
-Go to [Mirror's Homepage](https://mirror.vconet.top) (https://mirror.vconet.top)
+Go to [Mirror's Homepage](https://v-conet.github.io/zerotier-one/) (https://v-conet.github.io/zerotier-one/)
 
 ## Documentation
 

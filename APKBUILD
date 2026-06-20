@@ -12,7 +12,7 @@ makedepends="linux-headers cargo openssl-dev gcc make"
 subpackages="$pkgname-doc $pkgname-openrc"
 source="
 	zerotier-one.initd
-	$pkgname-$pkgver.tar.gz::https://github.com/zerotier/ZeroTierOne/archive/$pkgver.tar.gz
+	$pkgname-$pkgver.tar.gz::https://github.com/zerotier/ZeroTierOne/archive/refs/tags/$pkgver.tar.gz
 	"
 builddir="$srcdir/ZeroTierOne-$pkgver"
 
